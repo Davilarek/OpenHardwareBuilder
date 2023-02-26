@@ -1,5 +1,5 @@
 # OpenHardwareBuilder
-Work In Progress PC building software
+Work In Progress PC building software.
 Uses online services to extract data.
 Use at your own risk.
 
