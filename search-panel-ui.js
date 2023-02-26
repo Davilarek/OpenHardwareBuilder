@@ -62,8 +62,16 @@ function setup() {
     const notProductOK = document.getElementById("notOk");
 
     const pdfParserServiceUrlInput = document.getElementById("pdf-parser-service-url");
+    const pdfParserServiceUrlInputRemember = document.getElementById("pdf-parser-service-url-remember");
 
     const loadingScreen = document.getElementById("loading");
+
+    if (window.PDF_PARSER_SERVICE_URL == "") {
+        searchButton.disabled = true;
+        searchButton.setAttribute('title', 'Please fill PDF parser service url text input');
+    }
+
+    let rememberParserURL = false;
 
     function generateLoadingAnimation(frames, frameChar, outputElement) {
         const totalFrames = frames;
@@ -95,16 +103,42 @@ function setup() {
 
     pdfParserServiceUrlInput.oninput = function () {
         window.PDF_PARSER_SERVICE_URL = pdfParserServiceUrlInput.value;
+        if (rememberParserURL)
+            localStorage.setItem("parserService", window.PDF_PARSER_SERVICE_URL);
+        else
+            localStorage.removeItem("parserService");
         try {
             if (new URL(pdfParserServiceUrlInput.value) && isValidHttpUrl(pdfParserServiceUrlInput.value)) {
                 searchButton.disabled = false;
+                searchButton.setAttribute('title', '');
+            } else
+                throw new Error();
         } catch (error) {
             searchButton.disabled = true;
+            searchButton.setAttribute('title', 'Please fill PDF parser service url text input');
         }
+    }
+
+    pdfParserServiceUrlInputRemember.addEventListener('change', (event) => {
+        rememberParserURL = event.currentTarget.checked;
+        window.PDF_PARSER_SERVICE_URL = pdfParserServiceUrlInput.value;
+        if (!rememberParserURL)
+            localStorage.removeItem("parserService");
+    });
+
+    if (localStorage.getItem("parserService")) {
+        pdfParserServiceUrlInput.checked = true;
+        rememberParserURL = pdfParserServiceUrlInput.checked;
+        window.PDF_PARSER_SERVICE_URL = localStorage.getItem("parserService");
+        pdfParserServiceUrlInput.oninput();
     }
 
     searchButton.onclick = function (e, i) {
         if (i == undefined) i = 0;
+        if (!pdfParserServiceUrlInput.value.endsWith("/")) {
+            pdfParserServiceUrlInput.value += "/";
+            pdfParserServiceUrlInput.oninput();
+        }
         const brand = productBandDropdown.options[productBandDropdown.selectedIndex].text;
         // const toEval = "find" + brand + "SupportUrl(\"" + input.value + "\", \"" + i + "\")";
         const toEval = `simpleGET(window.PDF_PARSER_SERVICE_URL + "search?productBrand=` + brand + `&productName=" + "` + input.value + `" + "&i=" + ` + i + `).responseText`;
