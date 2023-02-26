@@ -1,37 +1,39 @@
 /// <reference path="utils.js" />
 
-window.PDF_PARSER_SERVICE_URL = "";
+// window.PDF_PARSER_SERVICE_URL = "";
 
-/**
- * ASUS LINK: https://www.asus.com/pl/searchresult?searchType=support&searchKey=<DATA>&page=1
- * more data: https://odinapi.asus.com/recent-data/apiv2/SearchResult?SystemCode=asus&WebsiteCode=pl&SearchKey=b150+pro+gaming+aura&SearchType=support&SearchPDLine=&SearchPDLine2=&PDLineFilter=&TopicFilter=&CateFilter=&PageSize=10&Pages=1&LocalFlag=0&siteID=www&sitelang=
- * @param {string} productName
- */
-function findASUSSupportUrl(productName, i) {
-    const baseURL = "https://odinapi.asus.com/recent-data/apiv2/SearchResult?SystemCode=asus&WebsiteCode=pl&SearchKey=" + productName.replaceAll(" ", "+") + "&SearchType=support&SearchPDLine=&SearchPDLine2=&PDLineFilter=&TopicFilter=&CateFilter=&PageSize=10&Pages=1&LocalFlag=0&siteID=www&sitelang=";
-    const final = simpleGET(baseURL);
-    const parsed = JSON.parse(final.responseText).Result.List[i].ProductManualUrl.replaceAll(" ", "%20").slice(0, -1);
-    return parsed;
-}
+// /**
+//  * ASUS LINK: https://www.asus.com/pl/searchresult?searchType=support&searchKey=<DATA>&page=1
+//  * more data: https://odinapi.asus.com/recent-data/apiv2/SearchResult?SystemCode=asus&WebsiteCode=pl&SearchKey=b150+pro+gaming+aura&SearchType=support&SearchPDLine=&SearchPDLine2=&PDLineFilter=&TopicFilter=&CateFilter=&PageSize=10&Pages=1&LocalFlag=0&siteID=www&sitelang=
+//  * @param {string} productName
+//  */
+// function findASUSSupportUrl(productName, i) {
+//     // const baseURL = "https://odinapi.asus.com/recent-data/apiv2/SearchResult?SystemCode=asus&WebsiteCode=pl&SearchKey=" + productName.replaceAll(" ", "+") + "&SearchType=support&SearchPDLine=&SearchPDLine2=&PDLineFilter=&TopicFilter=&CateFilter=&PageSize=10&Pages=1&LocalFlag=0&siteID=www&sitelang=";
+//     // const final = simpleGET(baseURL);
+//     // const parsed = JSON.parse(final.responseText).Result.List[i].ProductManualUrl.replaceAll(" ", "%20").slice(0, -1);
+//     // return parsed;
+//     return simpleGET(window.PDF_PARSER_SERVICE_URL + "search?productBrand=ASUS&productName=" + productName + "&i=" + i).responseText;
+// }
 
-/**
- * rog link: https://rog.asus.com/recent-data/search-api/v1/suggestion_v1/pl/product/10?SearchKey=ROG-STRIX-X670E-E-GAMING-WIFI&systemCode=rog
- * @param {string} productName
- */
-function findASUS_ROGSupportUrl(productName, i) {
-    const baseURL = "https://rog.asus.com/recent-data/search-api/v1/suggestion_v1/pl/product/10?SearchKey=" + productName.replaceAll(" ", "-") + "&systemCode=rog";
-    for (let index = 0; index < 5; index++) {
-        try {
-            const final = simpleGET("http://www.whateverorigin.org/get?url=" + encodeURIComponent(baseURL));
-            const parsed = JSON.parse(JSON.parse(final.responseText).contents).Result.Obj[0].Items[i].Url.replaceAll(" ", "%20") + "helpdesk_manual";
-            return parsed;
-        } catch (error) {
-            console.log(error);
-            console.log(index + " failed out of " + 5);
-        }
-    }
-    return null;
-}
+// /**
+//  * rog link: https://rog.asus.com/recent-data/search-api/v1/suggestion_v1/pl/product/10?SearchKey=ROG-STRIX-X670E-E-GAMING-WIFI&systemCode=rog
+//  * @param {string} productName
+//  */
+// function findASUS_ROGSupportUrl(productName, i) {
+//     // const baseURL = "https://rog.asus.com/recent-data/search-api/v1/suggestion_v1/pl/product/10?SearchKey=" + productName.replaceAll(" ", "-") + "&systemCode=rog";
+//     // for (let index = 0; index < 5; index++) {
+//     //     try {
+//     //         const final = simpleGET("http://www.whateverorigin.org/get?url=" + encodeURIComponent(baseURL));
+//     //         const parsed = JSON.parse(JSON.parse(final.responseText).contents).Result.Obj[0].Items[i].Url.replaceAll(" ", "%20") + "helpdesk_manual";
+//     //         return parsed;
+//     //     } catch (error) {
+//     //         console.log(error);
+//     //         console.log(index + " failed out of " + 5);
+//     //     }
+//     // }
+//     // return null;
+//     return simpleGET(window.PDF_PARSER_SERVICE_URL + "search?productBrand=ASUS_ROG&productName=" + productName + "&i=" + i).responseText;
+// }
 
 /*
 function getPDFManual(supportPage) {
