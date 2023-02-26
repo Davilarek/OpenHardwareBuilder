@@ -14,5 +14,8 @@ Then type your base product name into the search box, select brand and you shoul
 
 If search button is disabled, re-check parser service URL.
 
+## Console error meaning
+See [this table.](https://github.com/Davilarek/OpenHardwareBuilder-Server#request-response-meanings)
+
 # Goal
 Make PC building easier by selecting components that are compatible
