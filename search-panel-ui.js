@@ -145,6 +145,10 @@ function setup() {
         const toEval = `simpleGET(window.PDF_PARSER_SERVICE_URL + "search?productBrand=` + brand + `&productName=" + "` + input.value + `" + "&i=" + ` + i + `).responseText`;
         window.writeToConsole("Evaluating search functions...");
         const url = (Function('"use strict";return (' + toEval + ')')());
+        if (!isValidHttpUrl(url)) {
+            window.writeToConsole("Error: server responded with message \"" + url + "\".");
+            return;
+        }
         window.writeToConsole("Got product url...");
         isProductOK.style.display = "initial";
         isProductOK.getElementsByTagName("a")[0].href = url;
