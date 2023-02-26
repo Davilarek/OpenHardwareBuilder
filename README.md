@@ -1,6 +1,6 @@
 # OpenHardwareBuilder
 Work In Progress PC building software.
-Uses online services to extract data.
+Uses data from online services.
 Use at your own risk.
 
 # Stuff used
