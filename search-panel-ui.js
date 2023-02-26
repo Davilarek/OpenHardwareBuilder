@@ -106,7 +106,8 @@ function setup() {
     searchButton.onclick = function (e, i) {
         if (i == undefined) i = 0;
         const brand = productBandDropdown.options[productBandDropdown.selectedIndex].text;
-        const toEval = "find" + brand + "SupportUrl(\"" + input.value + "\", \"" + i + "\")";
+        // const toEval = "find" + brand + "SupportUrl(\"" + input.value + "\", \"" + i + "\")";
+        const toEval = `simpleGET(window.PDF_PARSER_SERVICE_URL + "search?productBrand=` + brand + `&productName=" + "` + input.value + `" + "&i=" + ` + i + `).responseText`;
         window.writeToConsole("Evaluating search functions...");
         const url = (Function('"use strict";return (' + toEval + ')')());
         window.writeToConsole("Got product url...");
