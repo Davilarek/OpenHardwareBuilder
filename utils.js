@@ -16,6 +16,17 @@ const importHTML = function (el, filename) {
     xhr.send();
 }
 
+function isValidHttpUrl(string) {
+    let url;
+    try {
+        url = new URL(string);
+    }
+    catch (_) {
+        return false;
+    }
+    return url.protocol === "http:" || url.protocol === "https:";
+}
+
 /**
  * 
  * @param {HTMLElement} el 
@@ -88,24 +99,24 @@ const advancedGET = function (url, cb, headers, hangAfter) {
     xhr.send();
 }
 
-var BASE64_MARKER = ';base64,';
-/**
- * https://stackoverflow.com/a/12094943/15229136
- * @param {*} dataURI 
- * @returns 
- */
-function convertDataURIToBinary(dataURI) {
-    var base64Index = dataURI.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
-    var base64 = dataURI.substring(base64Index);
-    var raw = window.atob(base64);
-    var rawLength = raw.length;
-    var array = new Uint8Array(new ArrayBuffer(rawLength));
+// var BASE64_MARKER = ';base64,';
+// /**
+//  * https://stackoverflow.com/a/12094943/15229136
+//  * @param {*} dataURI 
+//  * @returns 
+//  */
+// function convertDataURIToBinary(dataURI) {
+//     var base64Index = dataURI.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
+//     var base64 = dataURI.substring(base64Index);
+//     var raw = window.atob(base64);
+//     var rawLength = raw.length;
+//     var array = new Uint8Array(new ArrayBuffer(rawLength));
 
-    for (var i = 0; i < rawLength; i++) {
-        array[i] = raw.charCodeAt(i);
-    }
-    return array;
-}
+//     for (var i = 0; i < rawLength; i++) {
+//         array[i] = raw.charCodeAt(i);
+//     }
+//     return array;
+// }
 
 function download(data, filename) {
     var formBlob = new Blob([data], { type: 'text/plain' })
