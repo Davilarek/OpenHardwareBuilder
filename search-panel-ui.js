@@ -1,3 +1,4 @@
+let loadingScreenInterval = null;
 function setup() {
     const generatorsWorker = new Worker("./generators.js");
 
@@ -162,7 +163,7 @@ function setup() {
 
             isProductOK.style.display = "none";
             loadingScreen.style.display = "initial";
-            let loadingScreenInterval = generateLoadingAnimation(10, '*', loadingScreen.getElementsByTagName("p")[1]);
+            loadingScreenInterval = generateLoadingAnimation(10, '*', loadingScreen.getElementsByTagName("p")[1]);
 
             // let parsePDF1 = parsePDF;
             // let getPDFManual1 = getPDFManual;
@@ -201,6 +202,7 @@ function setup() {
     }
 }
 function parsingCompleted(data) {
+    clearInterval(loadingScreenInterval);
     const loadingScreen = document.getElementById("loading");
     loadingScreen.style.display = "none";
 
