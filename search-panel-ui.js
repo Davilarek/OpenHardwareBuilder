@@ -109,7 +109,7 @@ function setup() {
         else
             localStorage.removeItem("parserService");
         try {
-            if (new URL(pdfParserServiceUrlInput.value) && isValidHttpUrl(pdfParserServiceUrlInput.value)) {
+            if (isValidHttpUrl(pdfParserServiceUrlInput.value)) {
                 searchButton.disabled = false;
                 searchButton.setAttribute('title', '');
             } else
