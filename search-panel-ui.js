@@ -96,7 +96,7 @@ function setup() {
     pdfParserServiceUrlInput.oninput = function () {
         window.PDF_PARSER_SERVICE_URL = pdfParserServiceUrlInput.value;
         try {
-            if (new URL(pdfParserServiceUrlInput.value))
+            if (new URL(pdfParserServiceUrlInput.value) && isValidHttpUrl(pdfParserServiceUrlInput.value)) {
                 searchButton.disabled = false;
         } catch (error) {
             searchButton.disabled = true;
