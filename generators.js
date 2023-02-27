@@ -47,48 +47,55 @@ function getPDFManual(supportPage) {
     // // if (supportPage)
     window.writeToConsole("Detecting product url...");
     console.log(supportPage);
-    if (supportPage.startsWith("https://rog.asus.com")) {
-        // url: https://rog.asus.com/support/webapi/product/GetPDManual?website=pl&model=ROG-STRIX-X670E-E-GAMING-WIFI&pdid=20994&mode=&LevelTagId=204970&country=&region=&systemCode=rog
-        //      https://rog.asus.com/support/webapi/product/GetPDManual?website=pl&model=rog-strix-x670e-e-gaming-wifi&systemCode=rog
-        ///                                                                              rog-strix-x670e-e-gaming-wifi-model
-        // example:                       https://rog.asus.com/pl/motherboards/rog-strix/rog-strix-x670e-e-gaming-wifi-model/
-        const baseURL = "https://rog.asus.com/support/webapi/product/GetPDManual?website=global&model=" + supportPage.split("/")[supportPage.split("/").length - 2].split("-model")[0] + "&pdid=20994&mode=&LevelTagId=204970&country=&region=&systemCode=rog";
-        for (let index = 0; index < 5; index++) {
-            try {
-                window.writeToConsole("Trying to get product manual list...");
-                const final = simpleGET("http://www.whateverorigin.org/get?url=" + encodeURIComponent(baseURL));
-                const availableManuals = JSON.parse(JSON.parse(final.responseText).contents).Result.Obj[0].Files;
-                const parsed = availableManuals.filter(x => x.Title.endsWith("( English Edition )") && x.Title.includes("User"))[0].DownloadUrl.Global.replaceAll(" ", "%20") + "helpdesk_manual/";
-                window.writeToConsole("Found manual url!");
-                return parsed;
-            } catch (error) {
-                window.writeToConsole((index + 1) + " failed out of " + 5);
-                console.log(error);
-                console.log(index + " failed out of " + 5);
-            }
-        }
-    }
-    else if (supportPage.startsWith("https://www.asus.com")) {
-        // url: https://www.asus.com/support/api/product.asmx/GetPDManual?website=global&model=Pro-WS-WRX80E-SAGE-SE-WIFI-II&pdhashedid=tvn5bjd8hnpzzhyy&pdid=&region=&country=&siteID=www&sitelang=
-        // const baseURL = "https://www.asus.com/support/api/product.asmx/GetPDManual?website=global&model=" + supportPage.split("/")[supportPage.split("/").length - 2].split("-model")[0] + "&pdhashedid=tvn5bjd8hnpzzhyy&pdid=&region=&country=&siteID=www&sitelang=";
-        const baseURL = "https://www.asus.com/support/api/product.asmx/GetPDManual?website=global&model=" + supportPage.split("/")[supportPage.split("/").length - 2].split("-model")[0] + "&pdhashedid=&pdid=99999&region=&country=&siteID=www&sitelang=";
-        for (let index = 0; index < 5; index++) {
-            try {
-                window.writeToConsole("Trying to get product manual list...");
-                const final = simpleGET("http://www.whateverorigin.org/get?url=" + encodeURIComponent(baseURL));
-                const availableManuals = JSON.parse(JSON.parse(final.responseText).contents).Result.Obj[0].Files;
-                // const parsed = availableManuals.filter(x => x.Title.endsWith("( English Edition )") && x.Title.includes("User"))[0].DownloadUrl.Global.replaceAll(" ", "%20") + "helpdesk_manual/";
-                const parsed = availableManuals.filter(x => (x.Title.endsWith("( English Edition )") || x.Title.endsWith("(English)")) && x.Title.includes("User"))[0].DownloadUrl.Global.replaceAll(" ", "%20") + "helpdesk_manual/";
-                window.writeToConsole("Found manual url!");
-                return parsed;
-            } catch (error) {
-                window.writeToConsole((index + 1) + " failed out of " + 5);
-                console.log(error);
-                console.log(index + " failed out of " + 5);
-            }
-        }
-    }
 
+    // if (supportPage.startsWith("https://rog.asus.com")) {
+    //     // url: https://rog.asus.com/support/webapi/product/GetPDManual?website=pl&model=ROG-STRIX-X670E-E-GAMING-WIFI&pdid=20994&mode=&LevelTagId=204970&country=&region=&systemCode=rog
+    //     //      https://rog.asus.com/support/webapi/product/GetPDManual?website=pl&model=rog-strix-x670e-e-gaming-wifi&systemCode=rog
+    //     ///                                                                              rog-strix-x670e-e-gaming-wifi-model
+    //     // example:                       https://rog.asus.com/pl/motherboards/rog-strix/rog-strix-x670e-e-gaming-wifi-model/
+    //     const baseURL = "https://rog.asus.com/support/webapi/product/GetPDManual?website=global&model=" + supportPage.split("/")[supportPage.split("/").length - 2].split("-model")[0] + "&pdid=20994&mode=&LevelTagId=204970&country=&region=&systemCode=rog";
+    //     for (let index = 0; index < 5; index++) {
+    //         try {
+    //             window.writeToConsole("Trying to get product manual list...");
+    //             const final = simpleGET("http://www.whateverorigin.org/get?url=" + encodeURIComponent(baseURL));
+    //             const availableManuals = JSON.parse(JSON.parse(final.responseText).contents).Result.Obj[0].Files;
+    //             const parsed = availableManuals.filter(x => x.Title.endsWith("( English Edition )") && x.Title.includes("User"))[0].DownloadUrl.Global.replaceAll(" ", "%20") + "helpdesk_manual/";
+    //             window.writeToConsole("Found manual url!");
+    //             return parsed;
+    //         } catch (error) {
+    //             window.writeToConsole((index + 1) + " failed out of " + 5);
+    //             console.log(error);
+    //             console.log(index + " failed out of " + 5);
+    //         }
+    //     }
+    // }
+    // else if (supportPage.startsWith("https://www.asus.com")) {
+    //     // url: https://www.asus.com/support/api/product.asmx/GetPDManual?website=global&model=Pro-WS-WRX80E-SAGE-SE-WIFI-II&pdhashedid=tvn5bjd8hnpzzhyy&pdid=&region=&country=&siteID=www&sitelang=
+    //     // const baseURL = "https://www.asus.com/support/api/product.asmx/GetPDManual?website=global&model=" + supportPage.split("/")[supportPage.split("/").length - 2].split("-model")[0] + "&pdhashedid=tvn5bjd8hnpzzhyy&pdid=&region=&country=&siteID=www&sitelang=";
+    //     const baseURL = "https://www.asus.com/support/api/product.asmx/GetPDManual?website=global&model=" + supportPage.split("/")[supportPage.split("/").length - 2].split("-model")[0] + "&pdhashedid=&pdid=99999&region=&country=&siteID=www&sitelang=";
+    //     for (let index = 0; index < 5; index++) {
+    //         try {
+    //             window.writeToConsole("Trying to get product manual list...");
+    //             const final = simpleGET("http://www.whateverorigin.org/get?url=" + encodeURIComponent(baseURL));
+    //             const availableManuals = JSON.parse(JSON.parse(final.responseText).contents).Result.Obj[0].Files;
+    //             // const parsed = availableManuals.filter(x => x.Title.endsWith("( English Edition )") && x.Title.includes("User"))[0].DownloadUrl.Global.replaceAll(" ", "%20") + "helpdesk_manual/";
+    //             const parsed = availableManuals.filter(x => (x.Title.endsWith("( English Edition )") || x.Title.endsWith("(English)")) && x.Title.includes("User"))[0].DownloadUrl.Global.replaceAll(" ", "%20") + "helpdesk_manual/";
+    //             window.writeToConsole("Found manual url!");
+    //             return parsed;
+    //         } catch (error) {
+    //             window.writeToConsole((index + 1) + " failed out of " + 5);
+    //             console.log(error);
+    //             console.log(index + " failed out of " + 5);
+    //         }
+    //     }
+    // }
+
+    window.writeToConsole("Trying to get product manual list...");
+    const final = simpleGET(window.PDF_PARSER_SERVICE_URL + "getPDF?url=" + encodeURIComponent(supportPage)).responseText;
+    if (final.includes(".pdf")) {
+        window.writeToConsole("Found manual url!");
+        return final;
+    }
 }
 
 function parsePDF(url) {
