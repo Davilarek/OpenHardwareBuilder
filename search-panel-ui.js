@@ -120,17 +120,20 @@ function setup() {
         }
     }
 
-    pdfParserServiceUrlInputRemember.addEventListener('change', (event) => {
+    pdfParserServiceUrlInputRemember.onchange = function (event) {
         rememberParserURL = event.currentTarget.checked;
         window.PDF_PARSER_SERVICE_URL = pdfParserServiceUrlInput.value;
         if (!rememberParserURL)
             localStorage.removeItem("parserService");
-    });
+        else
+            localStorage.setItem("parserService", pdfParserServiceUrlInput.value);
+    };
 
     if (localStorage.getItem("parserService")) {
         pdfParserServiceUrlInput.checked = true;
         rememberParserURL = pdfParserServiceUrlInput.checked;
         window.PDF_PARSER_SERVICE_URL = localStorage.getItem("parserService");
+        pdfParserServiceUrlInputRemember.onchange({ currentTarget: { checked: true } });
         pdfParserServiceUrlInput.oninput();
     }
 
