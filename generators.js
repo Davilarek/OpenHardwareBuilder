@@ -96,6 +96,11 @@ function getPDFManual(supportPage) {
         window.writeToConsole("Found manual url!");
         return final;
     }
+    else {
+        const e = new Error("The service returned wrong data instead of URL");
+        console.error(e);
+    }
+    return null;
 }
 
 function parsePDF(url) {
@@ -188,6 +193,11 @@ function parsePDF(url) {
     //     console.log(pdfjsLib.getDocument(pdfAsArray));
     //     // }, undefined, 20000);
     // });
+
+    if (url == null) {
+        window.writeToConsole("Something went wrong on previous step (getting PDF url). Refresh the page or see your browser's built in developer console and report the error on Github Issues.");
+        return;
+    }
 
     window.writeToConsole("Using PDF parser service...");
     const data = simpleGET(window.PDF_PARSER_SERVICE_URL + "get?url=" + encodeURIComponent(url)).responseText;
