@@ -3,9 +3,6 @@ Work In Progress PC building software.
 Uses data from online services.
 Use at your own risk.
 
-# Stuff used
-- WhatverOrigin.org - data extraction
-
 # How to use
 Hosting own instance recommended.
 First, open index.html, paste your [parser service URL](https://github.com/Davilarek/OpenHardwareBuilder-Server#how-to-use) into the input box.
