@@ -10,7 +10,8 @@ const importHTML = function (el, filename) {
         if (xhr.status >= 200 && xhr.status < 300) {
             const domParser = new DOMParser();
             const parsed = domParser.parseFromString(xhr.responseText, "text/html");
-            el.appendChild(parsed.children[0].children[1].children[0]);
+            // el.appendChild(parsed.children[0].children[1].children[0]);
+            el.insertBefore(parsed.children[0].children[1].children[0], el.firstChild);
         }
     };
     xhr.send();
